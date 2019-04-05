@@ -30,7 +30,7 @@ def login():
     if form.validate_on_submit(): #if all fields are valid
         user = User.query.filter_by(username=form.username.data).first() #retrieves user from database
         if user is None:
-            user = User.query.filter_by(email=form.email.data).first()
+            user = User.query.filter_by(email=form.username.data).first()
         if user is None or not user.check_password(form.password.data):#failed log in attempt
             flash('Invalid username or password')
             return redirect(url_for('login'))
