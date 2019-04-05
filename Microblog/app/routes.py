@@ -19,7 +19,7 @@ def index():
             'body': 'The Avengers movie was so cool!'
         }
     ]
-    
+
     return render_template('index.html', title='Home', posts=posts)
 
 @app.route('/login', methods=['GET','POST'])
@@ -29,6 +29,8 @@ def login():
     form = LoginForm()
     if form.validate_on_submit(): #if all fields are valid
         user = User.query.filter_by(username=form.username.data).first() #retrieves user from database
+        if user is None:
+            user = User.query.filter_by(email=form.email.data).first()
         if user is None or not user.check_password(form.password.data):#failed log in attempt
             flash('Invalid username or password')
             return redirect(url_for('login'))
